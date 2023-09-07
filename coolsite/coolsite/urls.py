@@ -23,7 +23,7 @@ from coolsite import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('bodybuilding/', include('bodybuilding.urls')),
+    path('', include('bodybuilding.urls')),
 ]
 
 if settings.DEBUG:

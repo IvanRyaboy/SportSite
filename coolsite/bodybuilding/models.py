@@ -7,5 +7,5 @@ class Muscle(models.Model):
 
 
 class Relation(models.Model):
-    parentId = models.ForeignKey(Muscle, on_delete=models.CASCADE, related_name='child', blank=True)
-    childId = models.ForeignKey(Muscle, on_delete=models.CASCADE, related_name='parent', blank=True)
+    parent = models.ForeignKey(Muscle, on_delete=models.CASCADE, related_name='child', blank=True)
+    child = models.ForeignKey(Muscle, on_delete=models.CASCADE, related_name='parent', blank=True)

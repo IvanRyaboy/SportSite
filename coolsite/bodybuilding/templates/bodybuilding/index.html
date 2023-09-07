@@ -1,0 +1,8 @@
+{% extends 'bodybuilding/base.html' %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    {% for m in relations %}
+        <p>{{ m.parent.name }}</p>
+    {% endfor %}
+{% endblock %}
