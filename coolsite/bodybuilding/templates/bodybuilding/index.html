@@ -5,4 +5,8 @@
     {% for m in muscles %}
         <p><a href="{{ m.get_absolute_url }}">{{ m.name }}</a></p>
     {% endfor %}
+    <br>
+    {% for r in recipe %}
+        <p><a href="{{ r.get_absolute_url }}">{{ r.name }}</a></p>
+    {% endfor %}
 {% endblock %}

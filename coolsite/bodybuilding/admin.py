@@ -12,3 +12,9 @@ class MuscleAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'about')
     list_display_links = ('id', 'name')
     filter_horizontal = ['exercises']
+
+
+@admin.register(Recipe)
+class RecipeAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+    list_display_links = ('id', 'name')
