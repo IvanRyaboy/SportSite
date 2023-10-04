@@ -2,9 +2,21 @@ from django.db import models
 from django.urls import reverse
 
 
+class Exercise(models.Model):
+    name = models.CharField(max_length=30, verbose_name="Название")
+    about = models.TextField(blank=True, verbose_name="Описание")
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('exercise', kwargs={'exercise_id': self.pk})
+
+
 class Muscle(models.Model):
     name = models.CharField(max_length=30, verbose_name="Название")
     about = models.TextField(blank=True, verbose_name="Описание")
+    exercises = models.ManyToManyField(Exercise)
 
     def __str__(self):
         return self.name
@@ -18,13 +30,4 @@ class Relation(models.Model):
     child = models.ForeignKey(Muscle, on_delete=models.CASCADE, related_name='parent', blank=True)
 
 
-class Exercise(models.Model):
-    name = models.CharField(max_length=30, verbose_name="Название")
-    about = models.TextField(blank=True, verbose_name="Описание")
-    muscles = models.ManyToManyField(Muscle)
 
-    def __str__(self):
-        return self.name
-
-    def get_absolute_url(self):
-        return reverse('exercise', kwargs={'exercise_id': self.pk})
