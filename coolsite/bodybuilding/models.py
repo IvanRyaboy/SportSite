@@ -30,4 +30,14 @@ class Relation(models.Model):
     child = models.ForeignKey(Muscle, on_delete=models.CASCADE, related_name='parent', blank=True)
 
 
+class Recipe(models.Model):
+    name = models.CharField(max_length=50, verbose_name="Название")
+    nutrients = models.CharField(max_length=50, verbose_name="Макронутриенты")
+    ingredients = models.TextField(blank=True, verbose_name="Ингридиенты")
+    cooking = models.TextField(blank=True, verbose_name="Готовка")
 
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('recipe', kwargs={'recipe_id': self.pk})

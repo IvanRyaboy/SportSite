@@ -7,10 +7,12 @@ menu = ['Главное меню', 'О сайте', 'Мышечные групп
 
 def index(request):
     muscles = Muscle.objects.all()
+    recipes = Recipe.objects.all()
     context = {
         'menu': menu,
         'title': "Главное меню",
-        'muscles': muscles
+        'muscles': muscles,
+        'recipes': recipes
     }
     return render(request, 'bodybuilding/index.html', context=context)
 
@@ -34,6 +36,15 @@ def show_exercise(request, exercise_id):
         'exercise': exercise
     }
     return render(request, 'bodybuilding/exercise.html', context=context)
+
+
+def show_recipe(request, recipe_id):
+    recipe = Recipe.objects.get(pk=recipe_id)
+    context = {
+        'menu': menu,
+        'recipe': recipe
+    }
+    return render(request, 'bodybuilding/recipe.html', context=context)
 
 
 def pageNotFound(request, exception):
