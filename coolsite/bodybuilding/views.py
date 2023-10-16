@@ -2,19 +2,40 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound
 from .models import *
 
-menu = ['Главное меню', 'О сайте', 'Мышечные группы']
+menu = [{'title': 'Мышечные группы', 'url_name': 'muscles'},
+        {'title': 'Упражнения', 'url_name': 'exercises'},]
 
 
 def index(request):
     muscles = Muscle.objects.all()
     recipes = Recipe.objects.all()
+    sportNutrition = SportNutrition.objects.all()
     context = {
         'menu': menu,
         'title': "Главное меню",
         'muscles': muscles,
-        'recipes': recipes
+        'recipes': recipes,
+        'sportNutrition': sportNutrition
     }
     return render(request, 'bodybuilding/index.html', context=context)
+
+
+def muscles(request):
+    muscles = Muscle.objects.all()
+    context = {
+        'menu': menu,
+        'muscles': muscles
+    }
+    return render(request, 'bodybuilding/muscles.html', context=context)
+
+
+def exercises(request):
+    exercises = Exercise.objects.all()
+    context = {
+        'menu': menu,
+        'exercises': exercises
+    }
+    return render(request, 'bodybuilding/exercises.html', context=context)
 
 
 def show_muscle(request, muscle_id):
@@ -45,6 +66,15 @@ def show_recipe(request, recipe_id):
         'recipe': recipe
     }
     return render(request, 'bodybuilding/recipe.html', context=context)
+
+
+def show_sportNutrition(request, sportNutrition_id):
+    sportNutrition = SportNutrition.objects.get(pk=sportNutrition_id)
+    context = {
+        'menu': menu,
+        'sportNutrition': sportNutrition
+    }
+    return render(request, 'bodybuilding/nutrition.html', context=context)
 
 
 def pageNotFound(request, exception):

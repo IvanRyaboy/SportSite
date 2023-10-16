@@ -41,3 +41,25 @@ class Recipe(models.Model):
 
     def get_absolute_url(self):
         return reverse('recipe', kwargs={'recipe_id': self.pk})
+
+
+class SportNutrition(models.Model):
+    S = "S"
+    A = "A"
+    B = "B"
+    C = "C"
+    TierList = [
+        (S, "Богоподобно"),
+        (A, "Отлично"),
+        (B, "Есть но"),
+        (C, "Зачем")
+    ]
+    name = models.CharField(max_length=50, verbose_name="Название")
+    about = models.TextField(blank=True, verbose_name="Описание")
+    tierList = models.CharField(max_length=1, choices=TierList, default=S)
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('sportNutrition', kwargs={'sportNutrition_id': self.pk})

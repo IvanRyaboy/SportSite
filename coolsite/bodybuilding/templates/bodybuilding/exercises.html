@@ -1,0 +1,8 @@
+{% extends 'bodybuilding/base.html' %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    {% for e in exercises%}
+        <p><a href="{{ e.get_absolute_url }}">{{ e.name }}</a></p>
+    {% endfor %}
+{% endblock %}
