@@ -1,80 +1,120 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound
+from django.views.generic import ListView
+
 from .models import *
 
 menu = [{'title': 'Мышечные группы', 'url_name': 'muscles'},
-        {'title': 'Упражнения', 'url_name': 'exercises'},]
+        {'title': 'Упражнения', 'url_name': 'exercises'}]
 
 
-def index(request):
-    muscles = Muscle.objects.all()
-    recipes = Recipe.objects.all()
-    sportNutrition = SportNutrition.objects.all()
-    context = {
-        'menu': menu,
-        'title': "Главное меню",
-        'muscles': muscles,
-        'recipes': recipes,
-        'sportNutrition': sportNutrition
-    }
-    return render(request, 'bodybuilding/index.html', context=context)
+class MainPage(ListView):
+    model = Recipe
+    template_name = 'bodybuilding/index.html'
+    context_object_name = 'recipes'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        context['title'] = 'Главная страница'
+        return context
 
 
-def muscles(request):
-    muscles = Muscle.objects.all()
-    context = {
-        'menu': menu,
-        'muscles': muscles
-    }
-    return render(request, 'bodybuilding/muscles.html', context=context)
+class Muscles(ListView):
+    model = Muscle
+    template_name = 'bodybuilding/muscles.html'
+    context_object_name = 'muscles'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        context['title'] = 'Мышечные группы'
+        return context
 
 
-def exercises(request):
-    exercises = Exercise.objects.all()
-    context = {
-        'menu': menu,
-        'exercises': exercises
-    }
-    return render(request, 'bodybuilding/exercises.html', context=context)
+class Exercises(ListView):
+    model = Exercise
+    template_name = 'bodybuilding/exercises.html'
+    context_object_name = 'exercises'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        context['title'] = 'Упражнения'
+        return context
 
 
-def show_muscle(request, muscleSlug):
-    title = Muscle.objects.get(slug=muscleSlug)
-    exercises = title.exercises.all()
-    context = {
-        'menu': menu,
-        'title': title,
-        'muscleSlug': muscleSlug,
-        'exercises': exercises
-    }
-    return render(request, 'bodybuilding/muscle.html', context=context)
+class Recipes(ListView):
+    model = Recipe
+    template_name = 'bodybuilding/recipes.html'
+    context_object_name = 'recipes'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        context['title'] = 'Рецепты'
+        return context
 
 
-def show_exercise(request, exerciseSlug):
-    exercise = Exercise.objects.get(slug=exerciseSlug)
-    context = {
-        'menu': menu,
-        'exercise': exercise
-    }
-    return render(request, 'bodybuilding/exercise.html', context=context)
+class ShowMuscle(ListView):
+    model = Muscle
+    template_name = 'bodybuilding/muscle.html'
+    context_object_name = 'muscle'
+
+    def get_queryset(self):
+        return Muscle.objects.get(slug=self.kwargs['muscleSlug'])
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        context['title'] = str(context['muscle'].name)
+        context['exercises'] = context['muscle'].exercises.all()
+        return context
 
 
-def show_recipe(request, recipeSlug):
-    recipe = Recipe.objects.get(slug=recipeSlug)
-    context = {
-        'menu': menu,
-        'recipe': recipe
-    }
-    return render(request, 'bodybuilding/recipe.html', context=context)
+class ShowExercise(ListView):
+    model = Exercise
+    template_name = 'bodybuilding/exercise.html'
+    context_object_name = 'exercise'
+
+    def get_queryset(self):
+        return Exercise.objects.get(slug=self.kwargs['exerciseSlug'])
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        context['title'] = str(context['exercise'].name)
+        return context
 
 
-def show_sportNutrition(request, sportNutritionSlug):
-    sportNutrition = SportNutrition.objects.get(slug=sportNutritionSlug)
-    context = {
-        'menu': menu,
-        'sportNutrition': sportNutrition
-    }
-    return render(request, 'bodybuilding/nutrition.html', context=context)
+class ShowRecipe(ListView):
+    model = Recipe
+    context_object_name = 'recipe'
+    template_name = 'bodybuilding/recipe.html'
+
+    def get_queryset(self):
+        return Recipe.objects.get(slug=self.kwargs['recipeSlug'])
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        context['title'] = str(context['recipe'].name)
+        return context
+
+
+class ShowSportNutrition(ListView):
+    model = SportNutrition
+    context_object_name = 'sportNutrition'
+    template_name = 'bodybuilding/nutrition.html'
+
+    def get_queryset(self):
+        return SportNutrition.objects.get(slug=self.kwargs['spotrNutritionSlug'])
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        context['title'] = str(context['sportNutrition'].name)
+        return context
 
 
 def pageNotFound(request, exception):
