@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound
 from django.views.generic import ListView
+from django.views.generic.edit import FormView
 
 from .models import *
 

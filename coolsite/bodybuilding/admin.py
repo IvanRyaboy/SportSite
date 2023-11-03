@@ -28,3 +28,9 @@ class SportNutritionAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
     list_display_links = ('id', 'name')
     prepopulated_fields = {"slug": ("name",)}
+
+
+@admin.register(CalorieCount)
+class CalorieCountAdmin(admin.ModelAdmin):
+    list_display = ('calorie', 'date')
+

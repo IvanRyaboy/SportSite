@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
 
@@ -67,3 +68,12 @@ class SportNutrition(models.Model):
 
     def get_absolute_url(self):
         return reverse('sportNutrition', kwargs={'sportNutritionSlug': self.slug})
+
+
+class CalorieCount(models.Model):
+    calorie = models.IntegerField(verbose_name="Калории")
+    protein = models.IntegerField(verbose_name="Белки")
+    fat = models.IntegerField(verbose_name="Жиры")
+    carbs = models.IntegerField(verbose_name="Углеводы")
+    date = models.DateField(verbose_name="Дата")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user', blank=True)
