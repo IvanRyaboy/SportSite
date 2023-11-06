@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseNotFound
 from django.views.generic import ListView
 from django.views.generic.edit import FormView
 
+from .forms import *
 from .models import *
 
 menu = [{'title': 'Мышечные группы', 'url_name': 'muscles'},
@@ -116,6 +117,16 @@ class ShowSportNutrition(ListView):
         context['menu'] = menu
         context['title'] = str(context['sportNutrition'].name)
         return context
+
+
+def registration(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
+    else:
+        form = RegistrationForm()
+    return render(request, 'bodybuilding/registration.html', {'form': form, 'menu': menu})
 
 
 def pageNotFound(request, exception):

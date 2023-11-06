@@ -12,5 +12,6 @@ urlpatterns = [
     path('exercises/<slug:exerciseSlug>/', ShowExercise.as_view(), name='exercise'),
     path('recipe/<slug:recipeSlug>/', ShowRecipe.as_view(), name='recipe'),
     path('nutrition/<slug:sportNutritionSlug>/', ShowSportNutrition.as_view(), name='sportNutrition'),
+    path('registration/', registration, name='registration'),
     path('admin/', admin.site.urls),
 ]
