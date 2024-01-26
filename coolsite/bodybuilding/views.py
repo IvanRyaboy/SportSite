@@ -1,7 +1,9 @@
+from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound
-from django.views.generic import ListView
-from django.views.generic.edit import FormView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView
+from django.views.generic.edit import FormView, FormMixin
 
 from .forms import *
 from .models import *
@@ -119,14 +121,10 @@ class ShowSportNutrition(ListView):
         return context
 
 
-def registration(request):
-    if request.method == 'POST':
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
-            print(form.cleaned_data)
-    else:
-        form = RegistrationForm()
-    return render(request, 'bodybuilding/registration.html', {'form': form, 'menu': menu})
+class Registration(CreateView, FormMixin):
+    form_class = RegisterUserForm
+    template_name = 'bodybuilding/registration.html'
+    success_url = reverse_lazy('home')
 
 
 def pageNotFound(request, exception):
