@@ -1,9 +1,9 @@
 {% extends 'bodybuilding/base.html' %}
 
 {% block content %}
-<form action="{% url '' %}" method="post">
+<form action="{% url 'login' %}" method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Регистрация</button>
+    <button type="submit">Вход</button>
 </form>
 {% endblock %}

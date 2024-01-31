@@ -1,5 +1,7 @@
-from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import render
+from django.contrib.auth import logout
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.views import LoginView
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseNotFound
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView
@@ -125,6 +127,19 @@ class Registration(CreateView, FormMixin):
     form_class = RegisterUserForm
     template_name = 'bodybuilding/registration.html'
     success_url = reverse_lazy('home')
+
+
+class Login(LoginView):
+    form_class = LoginUserForm
+    template_name = 'bodybuilding/login.html'
+
+    def get_success_url(self):
+        return reverse_lazy('home')
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('login')
 
 
 def pageNotFound(request, exception):

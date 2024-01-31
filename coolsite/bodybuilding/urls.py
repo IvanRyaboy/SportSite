@@ -4,7 +4,7 @@ from .views import *
 
 
 urlpatterns = [
-    path('', MainPage.as_view()),
+    path('', MainPage.as_view(), name='home'),
     path('muscles/', Muscles.as_view(), name='muscles'),
     path('exercises/', Exercises.as_view(), name='exercises'),
     path('recipes/', Recipes.as_view(), name='recipes'),
@@ -13,5 +13,7 @@ urlpatterns = [
     path('recipe/<slug:recipeSlug>/', ShowRecipe.as_view(), name='recipe'),
     path('nutrition/<slug:sportNutritionSlug>/', ShowSportNutrition.as_view(), name='sportNutrition'),
     path('registration/', Registration.as_view(), name='registration'),
+    path('login/', Login.as_view(), name='login'),
+    path('logout/', logout_user, name='logout'),
     path('admin/', admin.site.urls),
 ]
